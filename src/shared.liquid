@@ -1,0 +1,135 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+
+{% assign utc = trmnl.system.timestamp_utc %}
+{% assign offset = trmnl.user.utc_offset %}
+{% assign local_timestamp = utc | plus: offset %}
+
+{% assign day_of_week = local_timestamp | date: "%w" | plus: 0 %}
+
+{% if day_of_week == 6 %}
+  {% assign days_until = 0 %}
+{% elsif day_of_week == 0 %}
+  {% assign days_until = 0 %}
+{% else %}
+  {% assign days_until = 6 | minus: day_of_week %}
+  {% assign is_weekend = false %}
+{% endif %}
+
+
+{% assign monday_quotes = "Monday. Nature's apology would be appreciated.|Ah yes, Monday. The reboot nobody asked for.|Welcome back to the weekly disappointment cycle.|Monday: where motivation goes to hide.|It's Monday. Pretend to care.|Monday. The universe's weekly reminder that joy is temporary.|New week, new sigh.|Happy Monday, just kidding.|Monday. The weekly betrayal begins again.|Oh look, Monday's here to ruin everything.|Monday: proof that weekends are too short.|Another Monday, another reason to question life choices.|Monday. Because even your coffee needs coffee.|Rise and despair, it's Monday.|Monday: aggressively unwelcome since forever." | split: "|" %}
+
+{% assign tuesday_quotes = "Tuesday. Monday with slightly better lighting.|You survived Monday. Congrats, I guess.|Tuesday: not terrible, not good, just… there.|Another day, another opportunity to sigh loudly.|Tuesday: the definition of 'meh'.|Tuesday. Technically not the worst day, but it tries hard.|Tuesday. Still not Friday.|Today's vibe: barely acceptable.|Still tired? Must be Tuesday.|Another day, another deep exhale.|Tuesday. Monday's equally disappointing sequel.|Still here? Unfortunately, yes.|Tuesday: the forgotten middle child of weekdays.|Two days down, only eternity left.|Tuesday. Where ambition comes to die quietly.|Nobody ever said 'I love Tuesdays' and meant it.|Tuesday: because one Monday wasn't enough suffering." | split: "|" %}
+
+{% assign wednesday_quotes = "Wednesday. Halfway, but emotionally exhausted.|Midweek: you're neither winning nor losing.|Happy Wednesday fake it till Friday.|Congrats, you've reached the middle. Thrilling.|Wednesday: still too early to feel hopeful.|Halfway there. Congratulations on… whatever this is.|Happy Wednesday fake enthusiasm required.|Wednesday: too early to quit, too late to care.|Peak 'whatever' energy today.|Wednesday. Celebrate being half-dead inside.|Midweek crisis loading...|Wednesday: the participation trophy of weekdays.|Wow, you're halfway through. Inspiring.|Wednesday. Still pretending any of this matters.|The week's middle finger to your hopes.|Wednesday: where optimism goes to reconsider." | split: "|" %}
+
+{% assign thursday_quotes = "Thursday. Basically Friday's pre-show.|So close, yet painfully not close enough.|Thursday: hope with a warranty that expires soon.|Your optimism is adorable. It's only Thursday.|Thursday—weekend loading… slowly.|Two days left. You're basically a professional survivor at this point.|Thursday, Friday's awkward warm-up.|Just one more day of pretending.|Today's energy: fragile hope.|You made it to Thursday. Somehow.|Thursday. Friday's cruel older sibling.|Almost there. But not really.|Thursday: hope's final warning before disappointment.|One more day. Try not to cry.|Thursday. The longest short distance to Friday.|Thursday: weekend visible but unreachable.|Close enough to smell freedom, too far to taste it." | split: "|" %}
+
+{% assign friday_quotes = "Friday! Time to pretend you have a life.|Congrats, you made it. At what cost?|Friday, where productivity goes to die.|Almost weekend. Act surprised.|Friday: the day you emotionally clock out at 09:05.|Tomorrow is the weekend. Try to contain your overwhelming enthusiasm.|Friday! Pretend you're thriving.|Friday: powered by hope and caffeine.|Weekend loading… please wait.|Friday achievement unlocked: survived.|Congrats, it's Friday. Lower your standards.|Friday. Two days of freedom bought with five days of suffering.|Finally Friday. Your reward: more exhaustion.|Friday: socially acceptable quitting time all day.|Made it to Friday. Barely.|Friday. Time to waste the freedom you desperately needed.|Congrats, you survived. Gold star for basic existence.|Friday: where plans sound better than they'll actually be." | split: "|" %}
+
+{% assign saturday_quotes = "Do nothing. You've earned it. Allegedly.|Saturday: where naps count as achievements.|Today's plan: not planning.|Weekend mode: on. Ambition: off.|Saturday. Chaos optional.|Saturday. Peak illusion of freedom.|Weekend mode on, brain mode off.|Saturday: built for denying responsibilities.|Enjoy today; tomorrow laughs at you.|Saturday, the only day that makes sense.|Yay for you, i don't care.|Saturday. Wasting time guilt-free since always.|Today's achievement: successfully doing nothing.|Saturday: proof you needed two days off, not one.|Peak freedom. Minimal motivation.|Saturday. Responsibilities can wait or whatever.|The only day that doesn't hate you back.|Saturday: aggressively unproductive and proud." | split: "|" %}
+
+{% assign sunday_quotes = "Nothing ruins Sunday like Monday.|Sunday—time moves suspiciously fast.|Sunday: joy slowly declines.|Sunday. The calm before the doom.|Sunday. The pre-Monday dread simulator.|Half weekend, half existential crisis.|Enjoy today; tomorrow restarts the misery.|Sunday: joy slowly evaporates.|Sunday, countdown to chaos begins.|Sunday. Weekend's funeral service.|The anxiety is free, the weekend costs everything.|Sunday: where relaxation meets impending doom.|Enjoy this, Monday's already laughing.|Sunday. Technically still weekend, emotionally already Monday.|The day optimism dies weekly.|Sunday: denial's last stand before reality hits." | split: "|" %}
+
+{% assign quote = "well this is awkward" %}
+{% assign days_left_title = "days left" %}
+{% case day_of_week %}
+  {% when 1 %}
+    {% assign quote = monday_quotes | sample %}
+  {% when 2 %}
+    {% assign quote = tuesday_quotes | sample %}
+  {% when 3 %}
+    {% assign quote = wednesday_quotes | sample %}
+  {% when 4 %}
+    {% assign quote = thursday_quotes | sample %}
+  {% when 5 %}
+    {% assign quote = friday_quotes | sample %}
+    {% assign days_left_title = "day left" %}
+  {% when 6 %}
+    {% assign quote = saturday_quotes | sample %}
+  {% when 0 %}
+    {% assign quote = sunday_quotes | sample %}
+{% endcase %}
+
+<style>
+  .weekend-counter {
+    font-family: "Bricolage Grotesque", sans-serif;
+  }
+
+  .weekend-shadow {
+    top: 5px;
+    left: 5px;
+    outline: 2px solid black;
+    box-shadow: 7px 7px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .weekend-letter {
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  .title {
+    font-weight: bold;
+    font-variation-settings: "wght" 700;
+  }
+
+  .number {
+    font-weight: 700;
+    font-variation-settings: "wght" 800;
+    transform: scale(1.5);
+  }
+
+  .days {
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .calendar-base,
+  .weekend-base {
+    position: relative;
+    overflow: visible;
+  }
+
+  .sheet {
+    outline: 3px solid black;
+  }
+
+  .sheet--1 {
+    bottom: 12px;
+    right: 12px;
+    box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .sheet--2 {
+    bottom: 22px;
+    right: 22px;
+  }
+
+  .sheet--3 {
+    bottom: 32px;
+    right: 32px;
+  }
+
+  .sheet--4 {
+    bottom: 42px;
+    right: 42px;
+  }
+
+  .sheet--5 {
+    bottom: 52px;
+    right: 52px;
+  }
+
+  .calendar {
+    outline: 2px solid black;
+  }
+
+  .relative {
+    position: relative;
+  }
+
+  .absolute {
+    position: absolute;
+  }
+</style>
