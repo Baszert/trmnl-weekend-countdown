@@ -1,9 +1,10 @@
 # Weekend Countdown
 
-A [TRMNL](https://trmnl.com) plugin for ePaper displays, connected by
-[GitHub Sync](https://help.trmnl.com/en/articles/15977899-github-sync): every save in TRMNL lands here as a commit.
+A countdown that motivates you (uhm…) through the week. A tear-off calendar shows the days left, with a sarcastic line for every weekday. And when it's weekend, it celebrates. Kind of.
 
-<img width="150" alt="image" src="https://trmnl.com/images/brand/badges/light/works-with-trmnl/trmnl-badge-works-with-light.svg" />
+<a href="https://trmnl.com/recipes/191614"><img width="150" alt="Works with TRMNL" src="https://trmnl.com/images/brand/badges/light/works-with-trmnl/trmnl-badge-works-with-light.svg" /></a>
+
+No settings: it uses your TRMNL account timezone.
 
 ### Develop locally
 
@@ -14,6 +15,4 @@ gem install trmnl_preview
 trmnlp serve
 ```
 
-### Discoverability
-
-Add the `trmnl` topic to this repo so other TRMNL plugin builders can find it.
+Questions or ideas? trmnl@achtnegen.nl or @Bastronautica on Discord.
