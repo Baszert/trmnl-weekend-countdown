@@ -53,83 +53,84 @@
 {% endcase %}
 
 <style>
+  /* Scoped to .weekend-counter so these don't leak into other plugins in a mashup */
   .weekend-counter {
     font-family: "Bricolage Grotesque", sans-serif;
   }
 
-  .weekend-shadow {
+  .weekend-counter .weekend-shadow {
     top: 5px;
     left: 5px;
     outline: 2px solid black;
     box-shadow: 7px 7px 0 rgba(0, 0, 0, 0.2);
   }
 
-  .weekend-letter {
+  .weekend-counter .weekend-letter {
     text-transform: uppercase;
     font-weight: bold;
   }
 
-  .title {
+  .weekend-counter .title {
     font-weight: bold;
     font-variation-settings: "wght" 700;
   }
 
-  .number {
+  .weekend-counter .number {
     font-weight: 700;
     font-variation-settings: "wght" 800;
     transform: scale(1.5);
   }
 
-  .days {
+  .weekend-counter .days {
     font-weight: bold;
     text-transform: uppercase;
   }
 
-  .calendar-base,
-  .weekend-base {
+  .weekend-counter .calendar-base,
+  .weekend-counter .weekend-base {
     position: relative;
     overflow: visible;
   }
 
-  .sheet {
+  .weekend-counter .sheet {
     outline: 3px solid black;
   }
 
-  .sheet--1 {
+  .weekend-counter .sheet--1 {
     bottom: 12px;
     right: 12px;
     box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.2);
   }
 
-  .sheet--2 {
+  .weekend-counter .sheet--2 {
     bottom: 22px;
     right: 22px;
   }
 
-  .sheet--3 {
+  .weekend-counter .sheet--3 {
     bottom: 32px;
     right: 32px;
   }
 
-  .sheet--4 {
+  .weekend-counter .sheet--4 {
     bottom: 42px;
     right: 42px;
   }
 
-  .sheet--5 {
+  .weekend-counter .sheet--5 {
     bottom: 52px;
     right: 52px;
   }
 
-  .calendar {
+  .weekend-counter .calendar {
     outline: 2px solid black;
   }
 
-  .relative {
+  .weekend-counter .relative {
     position: relative;
   }
 
-  .absolute {
+  .weekend-counter .absolute {
     position: absolute;
   }
 </style>
