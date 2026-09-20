@@ -100,8 +100,8 @@
   {% for i in (1..days) %}
     {% if forloop.last %}
     <div class="wk-sheet wk-sheet--top">
-      <span class="wk-num">{{ days }}</span>
-      <span class="wk-cap">{{ caption }}</span>
+      <span class="value wk-num">{{ days }}</span>
+      <span class="label wk-cap">{{ caption }}</span>
     </div>
     {% else %}
       {% assign a = rot_pool | sample %}
@@ -119,7 +119,7 @@
   {% assign letters = "WEEKEND" | split: "" %}
   {% for letter in letters %}
     {% assign a = tilt_pool | sample %}
-  <div class="wk-tile" style="transform: rotate({{ a }}deg);">{{ letter }}</div>
+  <div class="value wk-tile" style="transform: rotate({{ a }}deg);">{{ letter }}</div>
   {% endfor %}
 </div>
 {% endtemplate %}

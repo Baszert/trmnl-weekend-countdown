@@ -3,8 +3,8 @@
 
   <div class="flex flex--row flex--center-y gap--large w--full">
     <div class="wk-copy flex flex--col flex--left gap--xsmall stretch">
-      <span class="wk-kicker text--gray-40">How long till the weekend?</span>
-      <span class="wk-quote wk-quote--md" data-clamp="3">{{ quote }}</span>
+      <span class="label wk-kicker text--gray-40">How long till the weekend?</span>
+      <span class="title wk-quote wk-quote--md" data-clamp="3">{{ quote }}</span>
     </div>
 
     {% render "wk_stack", days: days_until, caption: days_left_title, size: "wk-size--md", rot_pool: rot_pool, off_pool: off_pool %}
@@ -14,7 +14,7 @@
 
   <div class="flex flex--col flex--center-x gap--small w--full">
     {% render "wk_word", size: "wk-tile--md", tilt_pool: tilt_pool %}
-    <span class="wk-quote wk-quote--md text--center" data-clamp="2">{{ quote }}</span>
+    <span class="title wk-quote wk-quote--md text--center" data-clamp="2">{{ quote }}</span>
   </div>
 
 {% endif %}
