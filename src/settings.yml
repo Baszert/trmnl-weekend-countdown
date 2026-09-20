@@ -34,7 +34,7 @@ custom_fields:
 - name: About this plugin
   keyname: author_bio
   field_type: author_bio
-  description: Get ready for the weekend, a simple countdown that motivates you (uhm...) during the week to get ready for the weekend. And when it's weekend, it celebrates the weekend, kind-off...<br><br> Questions or ideas? Email me or reach out on Discord at @Bas/@Bastronautica.
+  description: Get ready for the weekend, a simple countdown that motivates you (uhm...) during the week to get ready for the weekend. And when it's weekend, it celebrates the weekend, kind-off...<br><br> Questions or ideas? Email me or reach out on Discord at @Bas.
   category: calendar
   email_address: trmnl@achtnegen.nl
 name: Weekend Countdown
