@@ -1,7 +1,3 @@
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
-
 {% comment %} ---------- Which day is it, and how far is the weekend? ---------- {% endcomment %}
 {% assign utc = trmnl.system.timestamp_utc %}
 {% assign offset = trmnl.user.utc_offset %}
@@ -48,9 +44,8 @@
 {% assign tilt_pool = "-6,-4,-3,3,4,6" | split: "," %}
 
 <style>
-  /* Everything scoped to .wkc; sizes scale with the screen through --ui-scale */
-  .wkc { font-family: "Bricolage Grotesque", sans-serif; }
-
+  /* Everything scoped to .wkc; sizes scale with the screen through --ui-scale.
+     No custom font: the TRMNL font comes from the framework. */
   .wkc .wk-copy { min-width: 0; }
   .wkc .wk-kicker { font-size: calc(18px * var(--ui-scale, 1)); line-height: 1.2; }
   .wkc .wk-quote  { font-size: calc(30px * var(--ui-scale, 1)); line-height: 1.15; font-weight: 800; font-variation-settings: "wght" 800; }
@@ -68,7 +63,7 @@
   .wkc .wk-sheet--top {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     gap: calc(2px * var(--ui-scale, 1));
-    box-shadow: calc(8px * var(--ui-scale, 1)) calc(8px * var(--ui-scale, 1)) 0 rgba(0, 0, 0, 0.18);
+    box-shadow: calc(8px * var(--ui-scale, 1)) calc(8px * var(--ui-scale, 1)) 0 rgba(0, 0, 0, 0.22);
     z-index: 5;
   }
   .wkc .wk-num { font-size: calc(var(--wk-size) * 0.54); line-height: 0.88; font-weight: 800; font-variation-settings: "wght" 800; letter-spacing: -0.03em; }
@@ -84,7 +79,7 @@
     display: flex; align-items: center; justify-content: center;
     font-size: calc(var(--wk-tile) * 0.6); line-height: 1;
     font-weight: 800; font-variation-settings: "wght" 800;
-    box-shadow: calc(5px * var(--ui-scale, 1)) calc(5px * var(--ui-scale, 1)) 0 rgba(0, 0, 0, 0.18);
+    box-shadow: calc(5px * var(--ui-scale, 1)) calc(5px * var(--ui-scale, 1)) 0 rgba(0, 0, 0, 0.22);
   }
 
   /* Sizes per layout */
@@ -94,10 +89,6 @@
   .wkc .wk-tile--xl { --wk-tile: calc(84px * var(--ui-scale, 1)); }
   .wkc .wk-tile--md { --wk-tile: calc(46px * var(--ui-scale, 1)); }
   .wkc .wk-tile--sm { --wk-tile: calc(34px * var(--ui-scale, 1)); }
-
-  /* 1-bit: soft gray shadows dither badly, so drop them */
-  .screen--1bit .wkc .wk-sheet--top,
-  .screen--1bit .wkc .wk-tile { box-shadow: none; }
 </style>
 
 
