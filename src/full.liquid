@@ -1,38 +1,21 @@
-<div class="layout layout--col h--full w--full weekend-counter pt--5 pl--5 pr--5">
-  {% if days_until != 0 %}
-  <div class="grid grid--cols-5 lg:portrait:grid--cols-1 gap--xxlarge">
+<div class="layout layout--col layout--center-y wkc">
+{% if days_until != 0 %}
 
-    <div class="col--span-3 flex flex--col flex--left h--full lg:portrait:mb--36">
-      <div class="value--small lg:value text--gray-40">How long till the weekend?</div>
-      <div class="value lg:value--large title pr--10">{{ quote }} </div>
+  <div class="flex flex--row flex--center-y gap--xlarge w--full portrait:flex--col portrait:gap--large">
+    <div class="wk-copy flex flex--col flex--left gap--small stretch">
+      <span class="wk-kicker text--gray-40">How long till the weekend?</span>
+      <span class="wk-quote" data-clamp="4">{{ quote }}</span>
     </div>
 
-    <div class="col--span-2 flex flex--center-x lg:portrait:ml--32">
-      <div class="calendar-base aspect--1/1 w--[290px] lg:w--96 relative">
-        {% for i in (1..days_until) %}
-        <div class="absolute rounded bg--white sheet sheet--{{i}} aspect--1/1 w--[236px] lg:w--96 flex flex--col flex--bottom pb--4 lg:pb--8 gap--none">
-          <div class="number value--xxlarge lg:value--mega">{{ days_until }}</div>
-          <div class="days py--5 value--small lg:value lg:mt--5">{{ days_left_title }}</div>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-  {% else %}
-  {% assign weekend_split = "weekend" | split: "" %}
-  <div class="flex">
-    {% for letter in weekend_split %}
-    <div class="w--[95px] aspect--1/1 weekend-base">
-      <div class="weekend-shadow absolute w--[85px] aspect--1/1 rounded--xsmall"></div>
-      <div class="weekend-letter title pt--3 ml--1 w--[85px] aspect--1/1 value--large text--center rounded">
-        {{ letter }}
-      </div>
-    </div>
-    {% endfor %}
+    {% render "wk_stack", days: days_until, caption: days_left_title, size: "wk-size--xl", rot_pool: rot_pool, off_pool: off_pool %}
   </div>
 
-  <div class="title text--center mt--10">
-    {{ quote }}
+{% else %}
+
+  <div class="flex flex--col flex--center-x gap--xlarge w--full">
+    {% render "wk_word", size: "wk-tile--xl", tilt_pool: tilt_pool %}
+    <span class="wk-quote text--center" data-clamp="2">{{ quote }}</span>
   </div>
-  {% endif %}
+
+{% endif %}
 </div>

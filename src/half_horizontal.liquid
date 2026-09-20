@@ -1,39 +1,21 @@
-<div class="layout layout--col h--full w--full weekend-counter pt--5 pl--5 pr--5">
-  {% if days_until != 0 %}
-  <div class="grid grid--cols-5 gap--xxlarge">
+<div class="layout layout--col layout--center-y wkc">
+{% if days_until != 0 %}
 
-    <div class="col--span-3 flex flex--col flex--left h--full">
-      <div class="value--small text--gray-40">How long till the weekend?</div>
-      <div class="value title">{{ quote }} </div>
+  <div class="flex flex--row flex--center-y gap--large w--full">
+    <div class="wk-copy flex flex--col flex--left gap--xsmall stretch">
+      <span class="wk-kicker text--gray-40">How long till the weekend?</span>
+      <span class="wk-quote wk-quote--md" data-clamp="3">{{ quote }}</span>
     </div>
 
-    <div class="col--span-2 flex flex--center-x">
-      <div class="calendar-base aspect--1/1 w--[200px] relative lg:mt--10">
-        {% for i in (1..days_until) %}
-        <div class="absolute bg--white rounded sheet sheet--{{i}} aspect--1/1 w--[156px] lg:w--[200px] lg:pb--3 flex flex--col flex--bottom gap--none">
-          <div class="number value--large lg:value--xlarge">{{ days_until }}</div>
-          <div class="days py--5 value--xsmall">{{ days_left_title }}</div>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-  {% else %}
-
-  {% assign weekend_split = "weekend" | split: "" %}
-  <div class="flex">
-    {% for letter in weekend_split %}
-    <div class="w--[95px] aspect--1/1 weekend-base">
-      <div class="weekend-shadow absolute w--[85px] aspect--1/1 "></div>
-      <div class="weekend-letter pt--2 w--[85px] bg--black aspect--1/1 text--white value--large text--center">
-        {{ letter }}
-      </div>
-    </div>
-    {% endfor %}
+    {% render "wk_stack", days: days_until, caption: days_left_title, size: "wk-size--md", rot_pool: rot_pool, off_pool: off_pool %}
   </div>
 
-  <div class="title text--center mt--2">
-    {{ quote }}
+{% else %}
+
+  <div class="flex flex--col flex--center-x gap--small w--full">
+    {% render "wk_word", size: "wk-tile--md", tilt_pool: tilt_pool %}
+    <span class="wk-quote wk-quote--md text--center" data-clamp="2">{{ quote }}</span>
   </div>
-  {% endif %}
+
+{% endif %}
 </div>

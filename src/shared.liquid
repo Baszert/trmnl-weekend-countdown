@@ -1,22 +1,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
 
+{% comment %} ---------- Which day is it, and how far is the weekend? ---------- {% endcomment %}
 {% assign utc = trmnl.system.timestamp_utc %}
 {% assign offset = trmnl.user.utc_offset %}
 {% assign local_timestamp = utc | plus: offset %}
-
 {% assign day_of_week = local_timestamp | date: "%w" | plus: 0 %}
 
-{% if day_of_week == 6 %}
-  {% assign days_until = 0 %}
-{% elsif day_of_week == 0 %}
+{% if day_of_week == 6 or day_of_week == 0 %}
   {% assign days_until = 0 %}
 {% else %}
   {% assign days_until = 6 | minus: day_of_week %}
-  {% assign is_weekend = false %}
 {% endif %}
-
 
 {% assign monday_quotes = "Monday. Nature's apology would be appreciated.|Ah yes, Monday. The reboot nobody asked for.|Welcome back to the weekly disappointment cycle.|Monday: where motivation goes to hide.|It's Monday. Pretend to care.|Monday. The universe's weekly reminder that joy is temporary.|New week, new sigh.|Happy Monday, just kidding.|Monday. The weekly betrayal begins again.|Oh look, Monday's here to ruin everything.|Monday: proof that weekends are too short.|Another Monday, another reason to question life choices.|Monday. Because even your coffee needs coffee.|Rise and despair, it's Monday.|Monday: aggressively unwelcome since forever." | split: "|" %}
 
@@ -35,102 +31,104 @@
 {% assign quote = "well this is awkward" %}
 {% assign days_left_title = "days left" %}
 {% case day_of_week %}
-  {% when 1 %}
-    {% assign quote = monday_quotes | sample %}
-  {% when 2 %}
-    {% assign quote = tuesday_quotes | sample %}
-  {% when 3 %}
-    {% assign quote = wednesday_quotes | sample %}
-  {% when 4 %}
-    {% assign quote = thursday_quotes | sample %}
+  {% when 1 %}{% assign quote = monday_quotes | sample %}
+  {% when 2 %}{% assign quote = tuesday_quotes | sample %}
+  {% when 3 %}{% assign quote = wednesday_quotes | sample %}
+  {% when 4 %}{% assign quote = thursday_quotes | sample %}
   {% when 5 %}
     {% assign quote = friday_quotes | sample %}
     {% assign days_left_title = "day left" %}
-  {% when 6 %}
-    {% assign quote = saturday_quotes | sample %}
-  {% when 0 %}
-    {% assign quote = sunday_quotes | sample %}
+  {% when 6 %}{% assign quote = saturday_quotes | sample %}
+  {% when 0 %}{% assign quote = sunday_quotes | sample %}
 {% endcase %}
 
+{% comment %} Pools for the messy stack: sampled per sheet, so every refresh looks different {% endcomment %}
+{% assign rot_pool = "-8,-6,-5,-4,-3,3,4,5,6,8" | split: "," %}
+{% assign off_pool = "-6,-4,-2,0,2,4,6" | split: "," %}
+{% assign tilt_pool = "-6,-4,-3,3,4,6" | split: "," %}
+
 <style>
-  /* Scoped to .weekend-counter so these don't leak into other plugins in a mashup */
-  .weekend-counter {
-    font-family: "Bricolage Grotesque", sans-serif;
+  /* Everything scoped to .wkc; sizes scale with the screen through --ui-scale */
+  .wkc { font-family: "Bricolage Grotesque", sans-serif; }
+
+  .wkc .wk-copy { min-width: 0; }
+  .wkc .wk-kicker { font-size: calc(18px * var(--ui-scale, 1)); line-height: 1.2; }
+  .wkc .wk-quote  { font-size: calc(30px * var(--ui-scale, 1)); line-height: 1.15; font-weight: 800; font-variation-settings: "wght" 800; }
+  .wkc .wk-quote--md { font-size: calc(22px * var(--ui-scale, 1)); }
+  .wkc .wk-quote--sm { font-size: calc(17px * var(--ui-scale, 1)); }
+
+  /* The stack: every sheet fills the square, offsets and rotation come from Liquid */
+  .wkc .wk-stack { position: relative; width: var(--wk-size); aspect-ratio: 1 / 1; flex: 0 0 auto; }
+  .wkc .wk-sheet {
+    position: absolute; inset: 0;
+    background: #fff;
+    border: calc(3px * var(--ui-scale, 1)) solid #000;
+    border-radius: calc(14px * var(--ui-scale, 1));
+  }
+  .wkc .wk-sheet--top {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: calc(2px * var(--ui-scale, 1));
+    box-shadow: calc(8px * var(--ui-scale, 1)) calc(8px * var(--ui-scale, 1)) 0 rgba(0, 0, 0, 0.18);
+    z-index: 5;
+  }
+  .wkc .wk-num { font-size: calc(var(--wk-size) * 0.54); line-height: 0.88; font-weight: 800; font-variation-settings: "wght" 800; letter-spacing: -0.03em; }
+  .wkc .wk-cap { font-size: calc(var(--wk-size) * 0.11); font-weight: 800; font-variation-settings: "wght" 800; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* WEEKEND tiles */
+  .wkc .wk-word { display: flex; gap: calc(var(--wk-tile) * 0.14); }
+  .wkc .wk-tile {
+    width: var(--wk-tile); aspect-ratio: 1 / 1;
+    background: #fff;
+    border: calc(3px * var(--ui-scale, 1)) solid #000;
+    border-radius: calc(12px * var(--ui-scale, 1));
+    display: flex; align-items: center; justify-content: center;
+    font-size: calc(var(--wk-tile) * 0.6); line-height: 1;
+    font-weight: 800; font-variation-settings: "wght" 800;
+    box-shadow: calc(5px * var(--ui-scale, 1)) calc(5px * var(--ui-scale, 1)) 0 rgba(0, 0, 0, 0.18);
   }
 
-  .weekend-counter .weekend-shadow {
-    top: 5px;
-    left: 5px;
-    outline: 2px solid black;
-    box-shadow: 7px 7px 0 rgba(0, 0, 0, 0.2);
-  }
+  /* Sizes per layout */
+  .wkc .wk-size--xl { --wk-size: calc(240px * var(--ui-scale, 1)); }
+  .wkc .wk-size--md { --wk-size: calc(150px * var(--ui-scale, 1)); }
+  .wkc .wk-size--sm { --wk-size: calc(110px * var(--ui-scale, 1)); }
+  .wkc .wk-tile--xl { --wk-tile: calc(84px * var(--ui-scale, 1)); }
+  .wkc .wk-tile--md { --wk-tile: calc(46px * var(--ui-scale, 1)); }
+  .wkc .wk-tile--sm { --wk-tile: calc(34px * var(--ui-scale, 1)); }
 
-  .weekend-counter .weekend-letter {
-    text-transform: uppercase;
-    font-weight: bold;
-  }
-
-  .weekend-counter .title {
-    font-weight: bold;
-    font-variation-settings: "wght" 700;
-  }
-
-  .weekend-counter .number {
-    font-weight: 700;
-    font-variation-settings: "wght" 800;
-    transform: scale(1.5);
-  }
-
-  .weekend-counter .days {
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-
-  .weekend-counter .calendar-base,
-  .weekend-counter .weekend-base {
-    position: relative;
-    overflow: visible;
-  }
-
-  .weekend-counter .sheet {
-    outline: 3px solid black;
-  }
-
-  .weekend-counter .sheet--1 {
-    bottom: 12px;
-    right: 12px;
-    box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.2);
-  }
-
-  .weekend-counter .sheet--2 {
-    bottom: 22px;
-    right: 22px;
-  }
-
-  .weekend-counter .sheet--3 {
-    bottom: 32px;
-    right: 32px;
-  }
-
-  .weekend-counter .sheet--4 {
-    bottom: 42px;
-    right: 42px;
-  }
-
-  .weekend-counter .sheet--5 {
-    bottom: 52px;
-    right: 52px;
-  }
-
-  .weekend-counter .calendar {
-    outline: 2px solid black;
-  }
-
-  .weekend-counter .relative {
-    position: relative;
-  }
-
-  .weekend-counter .absolute {
-    position: absolute;
-  }
+  /* 1-bit: soft gray shadows dither badly, so drop them */
+  .screen--1bit .wkc .wk-sheet--top,
+  .screen--1bit .wkc .wk-tile { box-shadow: none; }
 </style>
+
+
+{% comment %} ---------- Templates ---------- {% endcomment %}
+
+{% comment %} A messy stack of sheets: one per day left, the top one carries the number {% endcomment %}
+{% template wk_stack %}
+<div class="wk-stack {{ size }}">
+  {% for i in (1..days) %}
+    {% if forloop.last %}
+    <div class="wk-sheet wk-sheet--top">
+      <span class="wk-num">{{ days }}</span>
+      <span class="wk-cap">{{ caption }}</span>
+    </div>
+    {% else %}
+      {% assign a = rot_pool | sample %}
+      {% assign dx = off_pool | sample %}
+      {% assign dy = off_pool | sample %}
+    <div class="wk-sheet" style="transform: translate({{ dx }}%, {{ dy }}%) rotate({{ a }}deg);"></div>
+    {% endif %}
+  {% endfor %}
+</div>
+{% endtemplate %}
+
+{% comment %} WEEKEND in tiles, each one tilted a little {% endcomment %}
+{% template wk_word %}
+<div class="wk-word {{ size }}">
+  {% assign letters = "WEEKEND" | split: "" %}
+  {% for letter in letters %}
+    {% assign a = tilt_pool | sample %}
+  <div class="wk-tile" style="transform: rotate({{ a }}deg);">{{ letter }}</div>
+  {% endfor %}
+</div>
+{% endtemplate %}

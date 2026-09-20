@@ -1,42 +1,20 @@
-<div class="layout layout--col h--full w--full weekend-counter p--5">
-  {% if days_until != 0 %}
-  <div class="flex flex--col gap--xxlarge">
+<div class="layout layout--col layout--center-y wkc">
+{% if days_until != 0 %}
 
-    <div class="col--span-2 flex flex--center-x">
-      <div class="calendar-base aspect--1/1 w--[210px] relative">
-        {% for i in (1..days_until) %}
-        <div class="absolute bg--white rounded--small sheet sheet--{{i}} aspect--1/1 w--[156px] flex flex--col flex--bottom gap--none">
-          <div class="number value--xlarge">{{ days_until }}</div>
-          <div class="days pb--3 pt--4 value--xsmall">{{ days_left_title }}</div>
-        </div>
-        {% endfor %}
-      </div>
+  <div class="flex flex--row flex--center-y gap--small w--full">
+    <div class="wk-copy flex flex--col flex--left stretch">
+      <span class="wk-quote wk-quote--sm" data-clamp="4">{{ quote }}</span>
     </div>
-  {% else %}
-  <div class="flex flex--col gap--none">
-  {% assign weekend_split = "week" | split: "" %}
-  <div class="flex gap--none">
-    {% for letter in weekend_split %}
-    <div class="w--[80px] aspect--1/1 weekend-base">
-      <div class="weekend-shadow absolute w--[65px] aspect--1/1 "></div>
-      <div class="weekend-letter pt--3 w--[65px] bg--black aspect--1/1 text--white value text--center">
-        {{ letter }}
-      </div>
-    </div>
-    {% endfor %}
+
+    {% render "wk_stack", days: days_until, caption: days_left_title, size: "wk-size--sm", rot_pool: rot_pool, off_pool: off_pool %}
   </div>
 
-  {% assign weekend_split = "end" | split: "" %}
-  <div class="flex gap--none bg">
-    {% for letter in weekend_split %}
-    <div class="w--[80px] aspect--1/1 weekend-base">
-      <div class="weekend-shadow absolute w--[65px] aspect--1/1 "></div>
-      <div class="weekend-letter pt--3 w--[65px] bg--black aspect--1/1 text--white value text--center">
-        {{ letter }}
-      </div>
-    </div>
-    {% endfor %}
+{% else %}
+
+  <div class="flex flex--col flex--center-x gap--small w--full">
+    {% render "wk_word", size: "wk-tile--sm", tilt_pool: tilt_pool %}
+    <span class="wk-quote wk-quote--sm text--center" data-clamp="2">{{ quote }}</span>
   </div>
-  </div>
-  {% endif %}
+
+{% endif %}
 </div>
